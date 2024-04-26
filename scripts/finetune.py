@@ -153,6 +153,7 @@ class Finetune:
             print("\nAvg Test Loss: %.4f|Avg Img Loss: %.4f|Avg Txt Loss: %.4f|Avg Test Acc: %.4f|Avg Test Img Acc: %.4f|Avg Test Txt Acc: %.4f" \
                 % (avg_test_loss, avg_test_img_loss, avg_test_txt_loss, avg_test_acc, avg_test_img_acc, avg_test_txt_acc))
 
+            ### 저장할 state_dict는 clip_network.py 내부에서 model instance로 초기화한 CLIP의 state_dict
             if test_loss < best_test_loss:
                 best_test_loss = test_loss
                 torch.save({"best episode": epoch,

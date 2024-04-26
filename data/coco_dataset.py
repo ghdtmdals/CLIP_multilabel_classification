@@ -3,12 +3,15 @@ import torch
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms
 
-from pycocotools.coco import COCO
+# from pycocotools.coco import COCO
 
 from PIL import Image
 import pickle
 import os
 
+
+### pycocotools로 데이터를 호출하는 것이 생각보다 시간이 걸림
+### train과 test 셋을 추가적으로 분리해야 하기 때문에 사전에 이미지 경로와 라벨을 별도로 처리하여 pkl형식 파일로 저장함
 class COCODataset(Dataset) :
     def __init__(self, data_path, transform):
         super(COCODataset, self).__init__()

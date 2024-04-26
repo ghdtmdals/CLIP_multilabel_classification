@@ -44,18 +44,21 @@ class ImageDataset(Dataset):
             labels = eval(f.read())
 
         text_labels = []
+        ### CLIP은 문장 형태로 타겟 클래스를 입력하기 때문에 키워드 형태의 타겟 클래스를 문장으로 변환
         for label in labels:
             temp_prompt = "a photo of car with %s design" % label
             prompt_label = clip.tokenize(temp_prompt)
             text_labels.append(prompt_label)
         
         text_labels = torch.cat(text_labels)
+        ### 이미지 별로 라벨 수가 다르기 때문에 부족한 라벨은 0으로 채워줌
         text_labels = self.add_paddings(text_labels)
         
         return text_labels
     
     def add_paddings(self, text_labels):
         if len(text_labels) < 5:
+            ### 최대 5개 라벨을 가짐
             padding_size = 5 - len(text_labels)
             pads = torch.zeros(padding_size, 77).type(torch.LongTensor) # CLIP Embeddings have 77 lengths
             text_labels = torch.cat([text_labels, pads])

@@ -16,6 +16,7 @@ class CLIPNetwork(nn.Module):
 
         return model
     
+    ### 패딩에 해당하는 라벨은 학습할 필요가 없기 때문에 위치를 저장했다가 embedding 변환 결과를 0으로 치환해줌
     def get_padding_flags(self, texts):
         texts_sum = texts.sum(dim = -1)
         paddings = texts_sum == 0
@@ -31,7 +32,7 @@ class CLIPNetwork(nn.Module):
 
         text_features = self.model.encode_text(texts)
         text_features = text_features.reshape(batch_size, seq_len, text_features.size(1))
-        text_features[padding_flags] = text_features[padding_flags] * 0
+        text_features[padding_flags] = text_features[padding_flags] * 0 ### 패딩에 해당하는 embedding은 0으로 치환
         text_features = text_features.sum(dim = 1) ### Check Dims
 
         image_features = self.model.encode_image(images)

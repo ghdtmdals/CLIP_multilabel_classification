@@ -55,6 +55,7 @@ class CLIPInference:
 
         print(classification_report(y_true, y_pred, target_names = list(self.categories.values())))
 
+    ### 예측 결과에서 Softmax 확률이 가장 높은 하나만 이용해 평가 수행
     def run_inference(self):
         results = {}
         categories = list(self.categories.values())
